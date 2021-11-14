@@ -1,0 +1,31 @@
+package com.wasilyk.app.testing2
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.core.os.bundleOf
+import com.wasilyk.app.testing2.databinding.ActivityMainBinding
+
+class MainActivity : AppCompatActivity() {
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val fm = supportFragmentManager
+        val fragment = fm.findFragmentById(binding.fragmentContainer.id)
+
+        if(fragment == null) {
+            fm.beginTransaction()
+                .add(
+                    binding.fragmentContainer.id,
+                    ListFragment.newInstance(
+                        bundleOf(ListFragment.HEADER_TITLE to "Имена:")
+                    )
+                )
+                .commit()
+        }
+    }
+}
